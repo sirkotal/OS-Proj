@@ -1,6 +1,6 @@
 # OS-Proj
 
-Operating Systems project - coding exercises in C, utilizing processes, pipes and Linux terminal commands/system calls.
+Operating Systems project - coding exercises in C utilizing processes, pipes and Linux terminal commands/system calls.
 
 ## Problem #1
 
