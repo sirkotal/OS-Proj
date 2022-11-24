@@ -86,4 +86,6 @@ int main(int argc, char *argv[]) {
     finalzip[argc+3] = NULL;
 
     execv(finalzip[0], finalzip);
+
+    return EXIT_SUCCESS;
 }

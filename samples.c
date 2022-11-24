@@ -83,4 +83,5 @@ int main(int argc, char *argv[]) {
         printf("%c", ender);
         printf("%c", nl);
     }
+    return EXIT_SUCCESS;
 }
