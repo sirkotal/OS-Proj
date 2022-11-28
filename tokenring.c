@@ -104,7 +104,7 @@ int main (int argc, char *argv[]) {
                 // randomizes chances for lock/unlock process
                 int rand = random() % 100 - 1;
 
-                if (rand == prob) {
+                if (rand < prob) {
                     printf("[p%d] lock on token (val = %d)\n", i, msg);
                     sleep(sleeper);
                     printf("[p%d] unlock token\n", i);
