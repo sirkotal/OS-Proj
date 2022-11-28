@@ -21,7 +21,8 @@ int main (int argc, char *argv[]) {
     double chance = atof(argv[2]);
     int sleeper = atoi(argv[3]);
 
-    int prob = chance*100;
+    int prob = chance * 100;
+
     int msg = 0;
 
 
@@ -44,7 +45,7 @@ int main (int argc, char *argv[]) {
     char* write_pipe = malloc(sizeof(char)*50);
     char* read_pipe = malloc(sizeof(char)*50);
 
-    for (int i = 1; i <= n_pipes; i++) {
+    for (int i = 1; i <= n_pipes; i++) {                  // creates processes
         if ((pids[i-1] = fork()) < 0) {
             perror("fork");
             abort();
@@ -102,9 +103,9 @@ int main (int argc, char *argv[]) {
                 msg++; 
                 
                 // randomizes chances for lock/unlock process
-                int rand = random() % 100 - 1;
+                int rand= random() % 100 + 1;
 
-                if (rand < prob) {
+                if (rand <= prob) {
                     printf("[p%d] lock on token (val = %d)\n", i, msg);
                     sleep(sleeper);
                     printf("[p%d] unlock token\n", i);
