@@ -63,7 +63,7 @@ int main (int argc, char *argv[]) {
                 sprintf(read_pipe, "pipe%dto%d", i-1, i);
             }
 
-            srand(time(NULL));
+            srand(time(NULL) - (2*i));
 
             // array to store the pipes
             int pipeline[2];
