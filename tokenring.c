@@ -16,31 +16,33 @@ int main (int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    char* pipe_name = malloc(sizeof(char)*60);
-    int n_pipes = atoi(argv[1]);
-    double chance = atof(argv[2]);
-    int sleeper = atoi(argv[3]);
+    char* pipe_name = malloc(sizeof(char)*60);   // allocates memory for the pipe names
+    int n_pipes = atoi(argv[1]);                 // number of pipes
+    double chance = atof(argv[2]);               // chance of locking
+    int sleeper = atoi(argv[3]);                 // time it takes to unlock
 
-    int prob = chance * 100;
+    int prob = chance * 100;                     // 1 <= prob <= 100
 
-    int msg = 0;
+    int msg = 0;                                 // token value
+
+    srand(time(NULL) - (2*i));      // seed for random
 
 
-    for (int i = 1; i <= n_pipes; i++) {
+    for (int i = 1; i <= n_pipes; i++) {         // names every pipe
         if(i == n_pipes)
             sprintf(pipe_name, "pipe%dto1", i);
         else
             sprintf(pipe_name, "pipe%dto%d", i, i+1);
 
-        if ((mkfifo(pipe_name, 0666)) == -1) {
+        if ((mkfifo(pipe_name, 0666)) == -1) {     // creates the FIFO special files (pipes)
             perror("mkfifo");
             exit(0);
         }
     }
     
-    free(pipe_name);
+    free(pipe_name);                               // free pipe name memory (making sure we have enough memory for read_pipe/write_pipe allocations)
 
-    pid_t pids[n_pipes];
+    pid_t pids[n_pipes];                           // array of processes
 
     char* read_pipe = malloc(sizeof(char)*60);
     char* write_pipe = malloc(sizeof(char)*60);
@@ -50,7 +52,7 @@ int main (int argc, char *argv[]) {
             perror("fork");
             abort();
         } 
-        else if (pids[i-1] == 0) {
+        else if (pids[i-1] == 0) {                       // identifies the write and read pipes
             if (i == 1) {
                 sprintf(write_pipe, "pipe%dto%d", i, i+1);
                 sprintf(read_pipe, "pipe%dto1", n_pipes);
@@ -64,7 +66,6 @@ int main (int argc, char *argv[]) {
                 sprintf(write_pipe, "pipe%dto%d", i, i+1);
             }
 
-            srand(time(NULL) - (2*i));
 
             // array to store the pipes
             int pipeline[2];
