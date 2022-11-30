@@ -25,8 +25,6 @@ int main (int argc, char *argv[]) {
 
     int msg = 0;                                 // token value
 
-    srand(time(NULL) - (2*i));      // seed for random
-
 
     for (int i = 1; i <= n_pipes; i++) {         // names every pipe
         if(i == n_pipes)
@@ -86,6 +84,8 @@ int main (int argc, char *argv[]) {
                 close(pipeline[i]);
             }
 
+            srand(time(NULL) - i);      // seed for random
+
             while(true) {
 
                 // retrieves value from the previous process
@@ -104,9 +104,9 @@ int main (int argc, char *argv[]) {
                 msg++; 
                 
                 // randomizes chances for lock/unlock process
-                int rand= random() % 100 + 1;
+                int num = rand() % 100 + 1;
 
-                if (rand <= prob) {
+                if (num <= prob) {
                     printf("[p%d] lock on token (val = %d)\n", i, msg);
                     sleep(sleeper);
                     printf("[p%d] unlock token\n", i);
