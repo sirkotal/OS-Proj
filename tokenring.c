@@ -10,13 +10,13 @@
 #include <time.h>
 
 int main (int argc, char *argv[]) {
-    /* check number of args */
+    // check number of args (must be 4)
     if(argc != 4) {
         printf("Couldn't execute the program\n");
         return EXIT_FAILURE;
     }
 
-    char* pipe_name = malloc(sizeof(char)*50);
+    char* pipe_name = malloc(sizeof(char)*60);
     int n_pipes = atoi(argv[1]);
     double chance = atof(argv[2]);
     int sleeper = atoi(argv[3]);
@@ -33,7 +33,7 @@ int main (int argc, char *argv[]) {
             sprintf(pipe_name, "pipe%dto%d", i, i+1);
 
         if ((mkfifo(pipe_name, 0666)) == -1) {
-            fprintf(stderr, "mkfifo() Error %s", strerror(errno));
+            perror("mkfifo");
             exit(0);
         }
     }
@@ -42,8 +42,8 @@ int main (int argc, char *argv[]) {
 
     pid_t pids[n_pipes];
 
-    char* write_pipe = malloc(sizeof(char)*50);
-    char* read_pipe = malloc(sizeof(char)*50);
+    char* read_pipe = malloc(sizeof(char)*60);
+    char* write_pipe = malloc(sizeof(char)*60);
 
     for (int i = 1; i <= n_pipes; i++) {                  // creates processes
         if ((pids[i-1] = fork()) < 0) {
@@ -56,12 +56,12 @@ int main (int argc, char *argv[]) {
                 sprintf(read_pipe, "pipe%dto1", n_pipes);
             } 
             else if (i == n_pipes) {
-                sprintf(write_pipe, "pipe%dto1", i);
                 sprintf(read_pipe, "pipe%dto%d", i-1, i);
+                sprintf(write_pipe, "pipe%dto1", i);
             } 
             else {
-                sprintf(write_pipe, "pipe%dto%d", i, i+1);
                 sprintf(read_pipe, "pipe%dto%d", i-1, i);
+                sprintf(write_pipe, "pipe%dto%d", i, i+1);
             }
 
             srand(time(NULL) - (2*i));
@@ -71,14 +71,14 @@ int main (int argc, char *argv[]) {
 
             if (i == 1) {
                 if ((pipeline[i] = open(write_pipe, O_WRONLY)) < 0) {
-                    fprintf(stderr, "open() Error %s", strerror(errno));
+                    perror("open");
                     exit(0);
                 }
 
                 msg++;
 
                 if (write(pipeline[i], &msg, sizeof(int)) < 0) {
-                    fprintf(stderr, "write() Error %s", strerror(errno));
+                    perror("write");
                     exit(0);
                 }
 
@@ -89,12 +89,12 @@ int main (int argc, char *argv[]) {
 
                 // retrieves value from the previous process
                 if ((pipeline[0] = open(read_pipe, O_RDONLY)) < 0) {
-                    fprintf(stderr, "open() Error %s", strerror(errno));
+                    perror("open");
                     exit(0);
                 }
 
                 if (read(pipeline[0], &msg, sizeof(int)) < 0) {
-                    fprintf(stderr, "read() Error %s", strerror(errno));
+                    perror("read");
                     exit(0);
                 }
 
@@ -113,12 +113,12 @@ int main (int argc, char *argv[]) {
 
                 // writing the value of the message into the next process
                 if((pipeline[1] = open(write_pipe, O_WRONLY)) < 0) {
-                    fprintf(stderr, "open() Error %s", strerror(errno));
+                    perror("open");
                     exit(0);
                 }
                 
                 if(write(pipeline[1], &msg, sizeof(int)) < 0) {
-                    fprintf(stderr, "write() Error %s", strerror(errno));
+                    perror("write");
                     exit(0);
                 }
 
@@ -131,7 +131,7 @@ int main (int argc, char *argv[]) {
 
     for (int i = 0; i < n_pipes; i++) {
         if(waitpid(pids[i], NULL, 0) < 0) {
-            fprintf(stderr, "waitpid() Error %s", strerror(errno));
+            perror("waitpid");
             return EXIT_FAILURE;
         }
     }

@@ -12,7 +12,7 @@
 #include <stdbool.h>
 
 int main(int argc, char *argv[]) {
-    if(argc < 4 || argc > 4) {
+    if(argc != 4) {
         printf("Couldn't execute the program\n\r");
         return EXIT_FAILURE;
     }
