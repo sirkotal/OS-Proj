@@ -16,7 +16,7 @@ int main (int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    char* pipe_name = malloc(sizeof(char)*60);   // allocates memory for the pipe names
+    char* pipe_name = malloc(60);   // allocates memory for the pipe names
     int n_pipes = atoi(argv[1]);                 // number of pipes
     double chance = atof(argv[2]);               // chance of locking
     int sleeper = atoi(argv[3]);                 // time it takes to unlock
@@ -44,8 +44,8 @@ int main (int argc, char *argv[]) {
 
     pid_t pids[n_pipes];                           // array of processes
 
-    char* read_pipe = malloc(sizeof(char)*60);
-    char* write_pipe = malloc(sizeof(char)*60);
+    char* read_pipe = malloc(60);
+    char* write_pipe = malloc(60);
 
     for (int i = 1; i <= n_pipes; i++) {                  // creates processes
         if ((pids[i-1] = fork()) < 0) {
