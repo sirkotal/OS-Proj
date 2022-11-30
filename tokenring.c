@@ -1,11 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <string.h>
 #include <stdbool.h>
 #include <time.h>
 
@@ -73,8 +73,6 @@ int main (int argc, char *argv[]) {
                     perror("open");
                     exit(0);
                 }
-
-                msg++;
 
                 if (write(pipeline[i], &msg, sizeof(int)) < 0) {
                     perror("write");
