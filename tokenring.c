@@ -82,7 +82,7 @@ int main (int argc, char *argv[]) {
                 close(pipeline[i]);
             }
 
-            srand(time(NULL) - i);      // seed for random
+            srand(time(NULL) - (3*i));      // seed for random
 
             while(true) {
 
