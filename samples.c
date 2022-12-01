@@ -19,9 +19,6 @@ int main(int argc, char *argv[]) {
 
     FILE *fp;
     fp = fopen(argv[1],"r+");
-    
-    //char* p; -- used for strtoI
-    //char* q;
 
     srand(time(0));
     int count = atoi(argv[2]);  //better than strtoI
@@ -40,11 +37,6 @@ int main(int argc, char *argv[]) {
             }
         }
 
-        /*if (temp < 0) {
-            i--;
-            continue;
-        }*/
-
         if (!exists) {
             nums[i] = temp;
         }
@@ -53,16 +45,11 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    /*for(int i=0; i<count; i++) {
-     printf("%d ", nums[i]);
-    }*/
     char starter = '>';
     char ender = '<';
     char nl = '\n';
 
     for (int i = 0; i < count; i++) {
-        //char frag[c_count] ;
-        //printf("%d", nums[i]);
         printf("%c", starter);
         fseek(fp, nums[i], 0);
         for (int j = 0; j < c_count; j++) {
