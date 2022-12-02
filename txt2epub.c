@@ -40,17 +40,13 @@ int main(int argc, char *argv[]) {
             abort();
         } 
         else if (pids[i] == 0) {
-            //printf("%d\n", i);
             size_t len = strlen(argv[i+1]);
-            //printf("%zu\n", len);
             char command[] = "/usr/bin/pandoc";
             char output[] = "-o";
             char text[len];
             strcpy(text, argv[i+1]);  // text = file.txt
             char* copyOfText = strdup(text);
             removeSubstr(copyOfText, ".txt");
-            //puts(text);
-            //puts(copyOfText);
             execlp(command, command, text, output, copyOfText, NULL);
             exit(0);
         }
