@@ -20,6 +20,11 @@ int main(int argc, char *argv[]) {
     FILE *fp;
     fp = fopen(argv[1],"r+");
 
+    if (fp == NULL) {
+        printf("Couldn't open the provided file\n\r");
+        return EXIT_FAILURE;
+    }
+
     srand(time(0));
     int count = atoi(argv[2]);  //better than strtoI
     int c_count = atoi(argv[3]);
