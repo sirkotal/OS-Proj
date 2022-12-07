@@ -10,6 +10,7 @@
 #include <time.h>
 
 int main (int argc, char *argv[]) {
+    setbuf(stdout, NULL);
     // check number of args (must be 4)
     if(argc != 4) {
         printf("Couldn't execute the program\n");
