@@ -2,7 +2,7 @@
 
 Operating Systems project - coding exercises in C utilizing processes, pipes and Linux terminal commands/system calls.
 
-Grade: 5.9/6
+**Grade: 5.9/6**
 
 ## Problem #1
 
